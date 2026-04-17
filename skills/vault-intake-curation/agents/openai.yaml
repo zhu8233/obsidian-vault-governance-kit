@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vault Intake"
+  short_description: "Intake and curation workflow"
+  default_prompt: "Use $vault-intake-curation to process raw sources into governed vault notes."

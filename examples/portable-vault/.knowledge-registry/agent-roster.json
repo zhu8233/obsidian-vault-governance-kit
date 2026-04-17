@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "agents": [
+    {
+      "agent_id": "human",
+      "role": "owner",
+      "allowed_layers": ["system", "intake", "curation", "canonical", "archive"],
+      "forbidden_layers": [],
+      "default_operations": ["capture", "normalize", "curate", "propose", "promote", "merge", "audit", "archive"],
+      "requires_registry_write": false,
+      "conflict_policy": "human-wins"
+    }
+  ]
+}

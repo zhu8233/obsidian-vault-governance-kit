@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vault Governance"
+  short_description: "Cross-agent vault governance"
+  default_prompt: "Use $vault-governance to assess how this knowledge vault should be read or updated."

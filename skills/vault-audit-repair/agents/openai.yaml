@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vault Audit"
+  short_description: "Audit and repair vault drift"
+  default_prompt: "Use $vault-audit-repair to audit this vault for drift, duplicates, and missing registry state."

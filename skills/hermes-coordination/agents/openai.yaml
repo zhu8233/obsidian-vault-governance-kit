@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hermes Coordination"
+  short_description: "Hermes coordinator protocol"
+  default_prompt: "Use $hermes-coordination to coordinate promotions, merges, and archive decisions across the vault."

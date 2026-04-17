@@ -1,0 +1,1 @@
+{"timestamp":"2026-04-17T00:00:00Z","actor":"human","operation":"bootstrap","target_path":".knowledge-registry","kb_id":"kb.example.bootstrap","topic_id":"topic.example-governance","layer":"system","summary":"Bootstrapped portable example vault.","registry_updated":true}

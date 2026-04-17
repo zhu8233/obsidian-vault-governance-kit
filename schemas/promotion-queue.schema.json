@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/obsidian-vault-governance-kit/promotion-queue.schema.json",
+  "title": "Promotion Queue",
+  "type": "object",
+  "required": ["version", "last_updated", "items"],
+  "properties": {
+    "version": { "type": "string" },
+    "last_updated": { "type": "string" },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["proposal_id", "topic_id", "source_path", "candidate_path", "status", "submitted_by", "submitted_at"],
+        "properties": {
+          "proposal_id": { "type": "string" },
+          "topic_id": { "type": "string" },
+          "source_path": { "type": "string" },
+          "candidate_path": { "type": "string" },
+          "status": { "type": "string" },
+          "submitted_by": { "type": "string" },
+          "submitted_at": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

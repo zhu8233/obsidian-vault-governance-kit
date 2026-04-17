@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "last_audit": null,
+  "topics": [
+    {
+      "topic_id": "topic.example-governance",
+      "title": "Example Governance Topic",
+      "aliases": ["governance-demo"],
+      "status": "active",
+      "source_domains": [],
+      "intake_paths": ["ProjectRaw/Example"],
+      "curation_paths": ["01-Workflow/Knowledge-Governance"],
+      "canonical_home": "20-KnowledgeHub/00-Example-Index.md",
+      "related_topics": [],
+      "upstream_bindings": []
+    }
+  ],
+  "objects": [],
+  "adapters": []
+}

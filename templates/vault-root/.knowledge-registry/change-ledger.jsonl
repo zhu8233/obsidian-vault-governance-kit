@@ -1,0 +1,1 @@
+{"timestamp":"YYYY-MM-DDTHH:MM:SSZ","actor":"human","operation":"bootstrap","target_path":".knowledge-registry","kb_id":"kb.system.bootstrap","topic_id":"topic.governance","layer":"system","summary":"Initialized governed vault templates.","registry_updated":true}

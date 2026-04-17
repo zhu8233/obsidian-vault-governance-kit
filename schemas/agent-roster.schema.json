@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/obsidian-vault-governance-kit/agent-roster.schema.json",
+  "title": "Agent Roster",
+  "type": "object",
+  "required": ["version", "agents"],
+  "properties": {
+    "version": { "type": "string" },
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["agent_id", "role", "allowed_layers", "forbidden_layers", "default_operations", "requires_registry_write", "conflict_policy"],
+        "properties": {
+          "agent_id": { "type": "string" },
+          "role": { "type": "string" },
+          "allowed_layers": { "type": "array", "items": { "type": "string" } },
+          "forbidden_layers": { "type": "array", "items": { "type": "string" } },
+          "default_operations": { "type": "array", "items": { "type": "string" } },
+          "requires_registry_write": { "type": "boolean" },
+          "conflict_policy": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

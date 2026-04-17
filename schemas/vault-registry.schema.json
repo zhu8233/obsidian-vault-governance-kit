@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/obsidian-vault-governance-kit/vault-registry.schema.json",
+  "title": "Vault Registry",
+  "type": "object",
+  "required": ["version", "last_audit", "topics", "objects", "adapters"],
+  "properties": {
+    "version": { "type": "string" },
+    "last_audit": { "type": ["string", "null"] },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["topic_id", "title", "aliases", "status", "source_domains", "intake_paths", "curation_paths", "canonical_home", "related_topics", "upstream_bindings"],
+        "properties": {
+          "topic_id": { "type": "string" },
+          "title": { "type": "string" },
+          "aliases": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string" },
+          "source_domains": { "type": "array", "items": { "type": "string" } },
+          "intake_paths": { "type": "array", "items": { "type": "string" } },
+          "curation_paths": { "type": "array", "items": { "type": "string" } },
+          "canonical_home": { "type": ["string", "null"] },
+          "related_topics": { "type": "array", "items": { "type": "string" } },
+          "upstream_bindings": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": true
+      }
+    },
+    "objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kb_id", "path", "kb_type", "kb_layer", "topic_id", "status", "managed_by", "source_system", "updated_at"],
+        "properties": {
+          "kb_id": { "type": "string" },
+          "path": { "type": "string" },
+          "kb_type": { "type": "string" },
+          "kb_layer": { "type": "string" },
+          "topic_id": { "type": "string" },
+          "status": { "type": "string" },
+          "managed_by": { "type": "string" },
+          "source_system": { "type": "string" },
+          "updated_at": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "adapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["adapter_id", "type", "path", "status", "sync_direction", "owner"],
+        "properties": {
+          "adapter_id": { "type": "string" },
+          "type": { "type": "string" },
+          "path": { "type": "string" },
+          "status": { "type": "string" },
+          "sync_direction": { "type": "string" },
+          "owner": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

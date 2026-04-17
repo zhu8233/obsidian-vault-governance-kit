@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/obsidian-vault-governance-kit/change-ledger-entry.schema.json",
+  "title": "Change Ledger Entry",
+  "type": "object",
+  "required": ["timestamp", "actor", "operation", "target_path", "kb_id", "topic_id", "layer", "summary", "registry_updated"],
+  "properties": {
+    "timestamp": { "type": "string" },
+    "actor": { "type": "string" },
+    "operation": { "type": "string" },
+    "target_path": { "type": "string" },
+    "kb_id": { "type": "string" },
+    "topic_id": { "type": "string" },
+    "layer": { "type": "string" },
+    "summary": { "type": "string" },
+    "registry_updated": { "type": "boolean" }
+  },
+  "additionalProperties": true
+}

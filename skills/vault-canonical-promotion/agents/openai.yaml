@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vault Promotion"
+  short_description: "Promote curated notes safely"
+  default_prompt: "Use $vault-canonical-promotion to move curated knowledge into canonical notes."
