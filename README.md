@@ -30,6 +30,7 @@ This kit solves that by combining:
 4. a portable skill pack for agent behavior
 5. promotion and audit workflows to control drift
 6. a project-archiving workflow for bringing maintained engineering work into the vault
+7. a dual-repo model where the governance system can be released independently from the data vault
 
 ## Design
 
@@ -52,6 +53,19 @@ The governance model has five layers:
 `CLAUDE.md`, `AGENTS.md`, and `GEMINI.md` are thin adapters that point back to `RULES.md`.
 
 That lets the same vault work across multiple agent ecosystems without making the governance model vendor-specific.
+
+### Dual-repo strategy
+
+This project is the **system repository**.
+
+A governed knowledge vault acts as the **data repository**.
+
+The intended relationship is:
+
+- the system repo publishes reusable governance releases
+- the data repo consumes a read-only snapshot in `.dbms-system/`
+- local differences live in `LocalOverrides/`
+- database-admin tooling manages snapshot upgrade proposals instead of auto-overwrite
 
 ### Registry strategy
 
@@ -86,6 +100,7 @@ The skill pack teaches agents how to:
 .
 ├── README.md
 ├── RULES.md
+├── core/
 ├── CLAUDE.md
 ├── AGENTS.md
 ├── GEMINI.md
@@ -96,6 +111,10 @@ The skill pack teaches agents how to:
 ├── templates/vault-root/
 └── examples/portable-vault/
 ```
+
+See also:
+
+- `docs/dual-repo-architecture.md`
 
 ## Included Components
 
@@ -122,6 +141,16 @@ The skill pack teaches agents how to:
 - `templates/vault-root/AGENTS.md`
 - `templates/vault-root/GEMINI.md`
 - `templates/vault-root/.knowledge-registry/*`
+- `templates/vault-root/.dbms-system/*`
+- `templates/vault-root/LocalOverrides/*`
+
+### Core system snapshot source
+
+- `core/RULES.md`
+- `core/Interfaces/`
+- `core/Planning/`
+- `core/DBMS/`
+- `core/skills-manifest.md`
 
 ### Example governed vault
 
@@ -153,6 +182,7 @@ Customize:
 - local topic naming rules
 - local folder conventions
 - any platform-specific adapter wording
+- local override files
 
 ### 3. Register your first topics
 
@@ -163,6 +193,14 @@ Do not try to register the entire vault at once.
 ### 4. Install the skill pack
 
 Copy the folders under `skills/` into your agent skill directory, or vendor them into your own agent setup.
+
+### 4.5 Sync the system snapshot
+
+Use the provided script to copy the core system into the target data vault:
+
+```bash
+python scripts/sync_system_snapshot.py /path/to/your-vault
+```
 
 ### 5. Start with intake and curation only
 
@@ -222,6 +260,15 @@ It checks:
 - `openai.yaml` prompts mention the correct `$skill-name`
 - JSON and JSONL files parse
 - template and example vault registry files parse
+- dual-repo support files exist
+- core system snapshot source exists
+
+You can also run:
+
+```bash
+python scripts/validate_system_repo.py
+python scripts/validate_data_repo.py /path/to/your-vault
+```
 
 GitHub Actions also runs this validation on push and pull request.
 
@@ -257,5 +304,12 @@ This is a publishable v1:
 - skill pack included
 - validation script included
 - GitHub workflow included
+
+This repository is also the starting point for a v2 dual-repo model:
+
+- productized system repo
+- data repo snapshot consumption
+- local override layer
+- database-admin upgrade flow
 
 The main recommended next step after publishing is real multi-agent regression testing against live vault tasks.
