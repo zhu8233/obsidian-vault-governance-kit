@@ -8,6 +8,12 @@
 
 - Agent-driven personal knowledge database system with a productized governance kernel, snapshot-based data repos, and multi-agent operations.
 
+## GitHub About
+
+Use this exact About description:
+
+`Agent-driven personal knowledge database system with a productized governance kernel, snapshot-based data repositories, and multi-agent operations.`
+
 ## Suggested Topics
 
 - `obsidian`
@@ -56,6 +62,11 @@ This repository provides:
 - branding unified as `Agents Knowledge DB`
 - system repository and data repository model clarified
 - dual-repo DBMS architecture now part of the public product identity
+
+### Recommended patch line after branding
+
+- `v1.1.1`
+- About / README wording tightened around the `Agents Knowledge DB` product identity
 
 ## Optional Future GitHub Enhancements
 

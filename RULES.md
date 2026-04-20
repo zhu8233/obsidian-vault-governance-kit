@@ -4,11 +4,15 @@ This repository publishes the system kernel for Agents Knowledge DB: an agent-dr
 
 ## Project Rule Source
 
-The canonical design of the governance model lives in:
+The canonical system design lives in:
 
 - `docs/architecture.md`
 - `docs/portable-adoption.md`
 - `templates/vault-root/RULES.md`
+
+## Product Identity
+
+Treat this repository as the publishable system repository for Agents Knowledge DB, not as a personal vault.
 
 ## Editing Rules
 

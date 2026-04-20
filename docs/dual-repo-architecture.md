@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Separate the governance system from the governed data vault.
+Separate the Agents Knowledge DB system repository from the governed data repository.
 
 ## Repositories
 
@@ -30,14 +30,14 @@ Any governed data repository, for example:
 
 Owns:
 
-- real data
+- real knowledge data
 - local registry
 - local reports
 - local state
 - local overrides
 - read-only snapshot of the system release
 
-## Data Repo Read Order
+## Data Repository Read Order
 
 1. local `RULES.md`
 2. `.dbms-system/`
@@ -50,3 +50,14 @@ Owns:
 - stable versioning
 - no cross-repo path dependency
 - easier upgrade review
+
+## Product Framing
+
+Agents Knowledge DB is the combined model:
+
+- system repository
+- data repository
+- snapshot boundary
+- local override layer
+
+This repository contains only the system side.

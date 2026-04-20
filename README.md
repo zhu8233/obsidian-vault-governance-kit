@@ -52,7 +52,7 @@ The governance model has five layers:
 
 `CLAUDE.md`, `AGENTS.md`, and `GEMINI.md` are thin adapters that point back to `RULES.md`.
 
-That lets the same vault work across multiple agent ecosystems without making the governance model vendor-specific.
+That lets the same knowledge database work across multiple agent ecosystems without making the governance model vendor-specific.
 
 ### Dual-repo strategy
 
@@ -89,7 +89,7 @@ The registry is the source of truth for:
 
 The skill pack teaches agents how to:
 
-- enter a governed vault
+- enter a governed knowledge database
 - identify layer and topic
 - decide if they can write
 - route work into intake, curation, project archiving, promotion, audit, or Hermes coordination
@@ -158,9 +158,9 @@ See also:
 
 ## Quickstart
 
-### 1. Copy templates into your vault root
+### 1. Copy templates into your data repository root
 
-Copy everything under `templates/vault-root/` into the root of the target vault.
+Copy everything under `templates/vault-root/` into the root of the target data repository.
 
 At minimum you want:
 
@@ -231,17 +231,17 @@ The intended onboarding path for any agent is:
 6. check write authority in `agent-roster.json`
 7. route to the appropriate skill
 
-If you want "any agent can enter and align quickly", this onboarding path is the minimum contract.
+If you want "any agent can enter and align quickly", this onboarding path is the minimum contract for the data repository.
 
 ## Project Archiving
 
-This repository includes a dedicated scenario for archiving an already-maintained engineering project into the vault.
+This repository includes a dedicated scenario for archiving an already-maintained engineering project into the data repository.
 
 Use `$vault-project-archiving` when you need to:
 
 - preserve project knowledge from an existing repo
 - create project overview and architecture notes
-- map source lineage without dumping raw code into the vault
+- map source lineage without dumping raw code into the data repository
 - keep active project material in curation until a stable summary deserves promotion
 
 ## Validation
@@ -286,7 +286,7 @@ Recommended release steps:
 
 ## Limitations
 
-This kit improves convergence, but does not create absolute enforcement by itself.
+Agents Knowledge DB improves convergence, but does not create absolute enforcement by itself.
 
 Skills guide behavior.
 Registries carry facts.
