@@ -7,6 +7,11 @@
 3. local vault registry
 4. local role roster
 
+For audit, scan, registry repair, or DBMS review tasks:
+
+5. `01-Workflow/Knowledge-Governance/DBMS/state/last-index-run.json`
+6. `01-Workflow/Knowledge-Governance/DBMS/index/findings.json`
+
 ## Required Decisions Before Editing
 
 1. What is the `task_type`?

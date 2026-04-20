@@ -15,6 +15,11 @@ Portable example vault using the governance kit.
 2. read `01-Workflow/Knowledge-Governance/00-Agent-Onboarding.md`
 3. read `.knowledge-registry/vault-registry.json`
 
+For audit or scan tasks:
+
+4. read `01-Workflow/Knowledge-Governance/DBMS/state/last-index-run.json`
+5. read `01-Workflow/Knowledge-Governance/DBMS/index/findings.json`
+
 ## Example registry path
 
 See `.knowledge-registry/vault-registry.json`.

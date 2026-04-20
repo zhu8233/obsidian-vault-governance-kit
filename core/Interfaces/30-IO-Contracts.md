@@ -22,3 +22,4 @@ Examples:
 - growth -> growth report + paths + next question + ledger
 - project archive -> manifest + source map + project index + ledger
 - dbms -> system report + ledger + dbms state update
+- index rebuild -> `DBMS/index/file-index.jsonl` + `topic-summary.json` + `findings.json` + report + ledger + `DBMS/state/last-index-run.json`

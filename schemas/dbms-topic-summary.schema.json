@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/obsidian-vault-governance-kit/dbms-topic-summary.schema.json",
+  "title": "DBMS Topic Summary",
+  "type": "object",
+  "required": ["version", "generated_at", "total_files", "topics"],
+  "properties": {
+    "version": { "type": "string" },
+    "generated_at": { "type": ["string", "null"] },
+    "total_files": { "type": "integer" },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["topic_id", "file_count", "zone_counts", "registry_counts"],
+        "properties": {
+          "topic_id": { "type": "string" },
+          "file_count": { "type": "integer" },
+          "zone_counts": { "type": "object", "additionalProperties": { "type": "integer" } },
+          "registry_counts": { "type": "object", "additionalProperties": { "type": "integer" } }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

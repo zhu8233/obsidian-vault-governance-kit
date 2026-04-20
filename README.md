@@ -31,6 +31,7 @@ This kit solves that by combining:
 5. promotion and audit workflows to control drift
 6. a project-archiving workflow for bringing maintained engineering work into the vault
 7. a dual-repo model where the governance system can be released independently from the data vault
+8. a DBMS materialized index layer for agent audit and scan tasks
 
 ## Design
 
@@ -85,6 +86,17 @@ The registry is the source of truth for:
 - promotion state
 - change history
 
+### DBMS index strategy
+
+`01-Workflow/Knowledge-Governance/DBMS/index/` stores derived scan state for:
+
+- whole-vault file coverage
+- registered vs unregistered comparisons
+- protected-zone drift checks
+- topic-level audit summaries
+
+This index is derived state maintained by `db-admin-agent`. It does not replace `.knowledge-registry/`.
+
 ### Agent behavior strategy
 
 The skill pack teaches agents how to:
@@ -115,6 +127,7 @@ The skill pack teaches agents how to:
 See also:
 
 - `docs/dual-repo-architecture.md`
+- `docs/agent-indexing.md`
 
 ## Included Components
 
@@ -133,6 +146,10 @@ See also:
 - `schemas/agent-roster.schema.json`
 - `schemas/promotion-queue.schema.json`
 - `schemas/change-ledger-entry.schema.json`
+- `schemas/dbms-file-index-entry.schema.json`
+- `schemas/dbms-topic-summary.schema.json`
+- `schemas/dbms-findings.schema.json`
+- `schemas/dbms-index-run-state.schema.json`
 
 ### Vault bootstrap templates
 
@@ -142,6 +159,7 @@ See also:
 - `templates/vault-root/GEMINI.md`
 - `templates/vault-root/.knowledge-registry/*`
 - `templates/vault-root/.dbms-system/*`
+- `templates/vault-root/01-Workflow/Knowledge-Governance/DBMS/index/*`
 - `templates/vault-root/LocalOverrides/*`
 
 ### Core system snapshot source
@@ -202,6 +220,14 @@ Use the provided script to copy the core system into the target data vault:
 python scripts/sync_system_snapshot.py /path/to/your-vault
 ```
 
+### 4.6 Rebuild the DBMS index
+
+After installation or after major vault changes, rebuild the materialized scan index:
+
+```bash
+python scripts/rebuild_dbms_index.py /path/to/your-vault
+```
+
 ### 5. Start with intake and curation only
 
 Do not enable canonical promotion on day one.
@@ -230,6 +256,8 @@ The intended onboarding path for any agent is:
 5. determine target layer
 6. check write authority in `agent-roster.json`
 7. route to the appropriate skill
+
+For audit and scan tasks, agents should additionally read the DBMS index state and findings before attempting a full rescan.
 
 If you want "any agent can enter and align quickly", this onboarding path is the minimum contract for the data repository.
 
@@ -260,6 +288,7 @@ It checks:
 - `openai.yaml` prompts mention the correct `$skill-name`
 - JSON and JSONL files parse
 - template and example vault registry files parse
+- DBMS index placeholders and state files exist
 - dual-repo support files exist
 - core system snapshot source exists
 

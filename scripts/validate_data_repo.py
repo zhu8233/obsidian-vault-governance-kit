@@ -47,6 +47,10 @@ def main() -> None:
         root / ".knowledge-registry" / "agent-roster.json",
         root / ".knowledge-registry" / "promotion-queue.json",
         root / ".knowledge-registry" / "change-ledger.jsonl",
+        root / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "file-index.jsonl",
+        root / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "topic-summary.json",
+        root / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "findings.json",
+        root / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "state" / "last-index-run.json",
     ]
 
     missing = [str(p) for p in required if not p.exists()]
@@ -59,10 +63,14 @@ def main() -> None:
         root / ".knowledge-registry" / "vault-registry.json",
         root / ".knowledge-registry" / "agent-roster.json",
         root / ".knowledge-registry" / "promotion-queue.json",
+        root / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "topic-summary.json",
+        root / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "findings.json",
+        root / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "state" / "last-index-run.json",
     ]:
         parse_json(p)
 
     parse_jsonl(root / ".knowledge-registry" / "change-ledger.jsonl")
+    parse_jsonl(root / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "file-index.jsonl")
     print("VALIDATE_DATA_REPO_OK")
 
 
