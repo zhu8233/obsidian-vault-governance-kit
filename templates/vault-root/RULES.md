@@ -13,6 +13,11 @@ Before changing any file in this vault:
 5. Check whether your role can write to the target layer
 6. Record important changes in `.knowledge-registry/change-ledger.jsonl`
 
+For audit or scan tasks, also read:
+
+7. `01-Workflow/Knowledge-Governance/DBMS/state/last-index-run.json`
+8. `01-Workflow/Knowledge-Governance/DBMS/index/findings.json`
+
 ## Layer Model
 
 - `system`

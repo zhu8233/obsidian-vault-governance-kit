@@ -22,9 +22,11 @@ def main() -> None:
         ROOT / "core" / "Interfaces" / "20-Task-Types.md",
         ROOT / "core" / "Planning" / "20-Three-Planes.md",
         ROOT / "core" / "DBMS" / "00-System-Data-Isolation.md",
+        ROOT / "core" / "DBMS" / "20-Materialized-Index-Layer.md",
         ROOT / "scripts" / "install_to_vault.py",
         ROOT / "scripts" / "sync_system_snapshot.py",
         ROOT / "scripts" / "check_override_compat.py",
+        ROOT / "scripts" / "rebuild_dbms_index.py",
         ROOT / "scripts" / "validate_data_repo.py",
     ]
     for path in required:

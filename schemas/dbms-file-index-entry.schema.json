@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/obsidian-vault-governance-kit/dbms-file-index-entry.schema.json",
+  "title": "DBMS File Index Entry",
+  "type": "object",
+  "required": [
+    "path",
+    "ext",
+    "content_kind",
+    "zone",
+    "kb_layer_guess",
+    "protection_class",
+    "kb_id",
+    "topic_id",
+    "registry_status",
+    "frontmatter_status",
+    "size",
+    "last_modified",
+    "content_hash",
+    "last_scanned_at",
+    "scan_flags"
+  ],
+  "properties": {
+    "path": { "type": "string" },
+    "ext": { "type": "string" },
+    "content_kind": { "type": "string" },
+    "zone": {
+      "type": "string",
+      "enum": ["system_snapshot", "system_local", "registry", "local_override", "intake", "curation", "canonical", "archive"]
+    },
+    "kb_layer_guess": { "type": "string" },
+    "protection_class": { "type": "string" },
+    "kb_id": { "type": ["string", "null"] },
+    "topic_id": { "type": ["string", "null"] },
+    "registry_status": {
+      "type": "string",
+      "enum": ["registered", "unregistered", "registry_missing_file", "registry_path_duplicate", "layer_mismatch"]
+    },
+    "frontmatter_status": {
+      "type": "string",
+      "enum": ["present", "missing", "invalid", "not_applicable"]
+    },
+    "size": { "type": "integer" },
+    "last_modified": { "type": "string" },
+    "content_hash": { "type": "string" },
+    "last_scanned_at": { "type": "string" },
+    "scan_flags": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

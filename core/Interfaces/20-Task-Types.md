@@ -14,6 +14,8 @@
 - `registry_repair`
 - `disorder_recovery`
 - `system_guard`
+- `index_rebuild`
+- `index_audit`
 - `post_archive_audit_repair`
 - `system_snapshot_sync_review`
 - `system_snapshot_upgrade_proposal`
@@ -22,3 +24,15 @@
 ## Rule
 
 Each task should declare exactly one primary `task_type`.
+
+## Index Tasks
+
+- `index_rebuild`
+  - default layer: `system`
+  - default risk: `L1-L2`
+  - output: DBMS index artifacts + report + ledger + index state update
+
+- `index_audit`
+  - default layer: `system`
+  - default risk: `L1-L2`
+  - output: findings review + report + ledger + index state update

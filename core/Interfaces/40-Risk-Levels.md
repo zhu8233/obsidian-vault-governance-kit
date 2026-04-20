@@ -14,3 +14,5 @@
 - `L2` requires state and ledger hygiene
 - `L3` requires proposal or elevated review
 - `L4` requires human approval or explicit coordination
+
+Index rebuild and index audit normally stay in `L1-L2` because they update derived DBMS state rather than canonical knowledge.

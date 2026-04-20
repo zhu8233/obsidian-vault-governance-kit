@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/obsidian-vault-governance-kit/dbms-findings.schema.json",
+  "title": "DBMS Findings",
+  "type": "object",
+  "required": ["version", "generated_at", "items"],
+  "properties": {
+    "version": { "type": "string" },
+    "generated_at": { "type": ["string", "null"] },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["finding_type", "path", "kb_id", "topic_id", "summary"],
+        "properties": {
+          "finding_type": {
+            "type": "string",
+            "enum": [
+              "unregistered_file",
+              "registry_missing_file",
+              "duplicate_registry_path",
+              "layer_path_mismatch",
+              "topic_unresolved",
+              "frontmatter_missing",
+              "protected_zone_unexpected_file",
+              "canonical_orphan_index"
+            ]
+          },
+          "path": { "type": "string" },
+          "kb_id": { "type": ["string", "null"] },
+          "topic_id": { "type": ["string", "null"] },
+          "summary": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

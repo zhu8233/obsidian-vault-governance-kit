@@ -55,6 +55,10 @@ def main() -> None:
         target / ".knowledge-registry" / "promotion-queue.json",
         target / ".knowledge-registry" / "change-ledger.jsonl",
         target / "01-Workflow" / "Knowledge-Governance" / "00-Agent-Onboarding.md",
+        target / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "file-index.jsonl",
+        target / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "topic-summary.json",
+        target / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "findings.json",
+        target / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "state" / "last-index-run.json",
     ]
 
     missing = [str(p) for p in required if not p.exists()]
@@ -65,10 +69,14 @@ def main() -> None:
         target / ".knowledge-registry" / "vault-registry.json",
         target / ".knowledge-registry" / "agent-roster.json",
         target / ".knowledge-registry" / "promotion-queue.json",
+        target / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "topic-summary.json",
+        target / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "findings.json",
+        target / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "state" / "last-index-run.json",
     ]:
         parse_json(json_file)
 
     parse_jsonl(target / ".knowledge-registry" / "change-ledger.jsonl")
+    parse_jsonl(target / "01-Workflow" / "Knowledge-Governance" / "DBMS" / "index" / "file-index.jsonl")
 
     rules_text = (target / "RULES.md").read_text(encoding="utf-8")
     onboarding_text = (target / "01-Workflow" / "Knowledge-Governance" / "00-Agent-Onboarding.md").read_text(encoding="utf-8")

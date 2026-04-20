@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/obsidian-vault-governance-kit/dbms-index-run-state.schema.json",
+  "title": "DBMS Index Run State",
+  "type": "object",
+  "required": [
+    "version",
+    "last_index_run",
+    "last_actor",
+    "last_task_type",
+    "last_report_path",
+    "last_status"
+  ],
+  "properties": {
+    "version": { "type": "string" },
+    "last_index_run": { "type": ["string", "null"] },
+    "last_actor": { "type": ["string", "null"] },
+    "last_task_type": { "type": ["string", "null"] },
+    "last_report_path": { "type": ["string", "null"] },
+    "last_status": { "type": "string" },
+    "total_files": { "type": "integer" },
+    "total_findings": { "type": "integer" }
+  },
+  "additionalProperties": false
+}
