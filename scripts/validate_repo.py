@@ -63,6 +63,7 @@ REQUIRED_FILES = [
     "scripts/sync_system_snapshot.py",
     "scripts/check_override_compat.py",
     "scripts/rebuild_dbms_index.py",
+    "scripts/reconcile_dbms_state.py",
     "scripts/validate_system_repo.py",
     "scripts/validate_data_repo.py",
 ]

@@ -228,6 +228,14 @@ After installation or after major vault changes, rebuild the materialized scan i
 python scripts/rebuild_dbms_index.py /path/to/your-vault
 ```
 
+### 4.7 Reconcile DBMS state
+
+If DBMS state files and reports drift apart, reconcile them:
+
+```bash
+python scripts/reconcile_dbms_state.py /path/to/your-vault
+```
+
 ### 5. Start with intake and curation only
 
 Do not enable canonical promotion on day one.
