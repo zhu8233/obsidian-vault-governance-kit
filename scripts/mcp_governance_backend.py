@@ -146,6 +146,15 @@ class GovernanceBackend:
                 "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False},
             },
             {
+                "name": "whoami",
+                "title": "Who Am I",
+                "description": "Return the current subject identity, effective role, and visible governance tools.",
+                "risk_level": "L0",
+                "target_layer": "system",
+                "annotations": {"readOnlyHint": True},
+                "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False},
+            },
+            {
                 "name": "propose_registry_update",
                 "title": "Propose Registry Update",
                 "description": "Create and persist a structured registry update proposal without mutating the registry.",
@@ -549,6 +558,29 @@ class GovernanceBackend:
                 "exitCode": result.returncode,
                 "stdout": result.stdout,
                 "stderr": result.stderr,
+            },
+        }
+
+    def _tool_whoami(self, arguments: dict) -> dict:
+        visible_tools = [tool["name"] for tool in self.list_tools() if tool["name"] != "whoami"]
+        role = "unknown"
+        mapped_agent_id = None
+        for tool in self._tool_catalog():
+            decision = self._evaluate(tool["name"], tool["risk_level"], tool["target_layer"])
+            if "effective_role" in decision:
+                role = decision["effective_role"]
+                mapped_agent_id = decision.get("mapped_agent_id")
+                break
+        return {
+            "isError": False,
+            "content": [{"type": "text", "text": f"Current role: {role}"}],
+            "structuredContent": {
+                "subjectId": self.subject_id,
+                "authMode": self.auth_mode,
+                "mappedAgentId": mapped_agent_id,
+                "effectiveRole": role,
+                "visibleTools": visible_tools,
+                "toolCount": len(visible_tools),
             },
         }
 

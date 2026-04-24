@@ -129,8 +129,10 @@ See also:
 - `docs/dual-repo-architecture.md`
 - `docs/agent-indexing.md`
 - `docs/mcp-access-model.md`
+- `docs/mcp-client-configs.md`
 - `docs/mcp-server.md`
 - `docs/mcp-role-examples.md`
+- `docs/mcp-vs-skills-adoption.md`
 
 ## Included Components
 
@@ -247,6 +249,7 @@ The current implementation supports:
 - MCP `resources`
 - MCP `prompts`
 - MCP `tools`
+- server-first adoption for MCP-capable agents
 - role-filtered tool visibility driven by `LocalOverrides/mcp-access-policy.json`
 - controlled registry writes through `apply_registry_update` for authorized system maintainers
 - promotion queue creation through `create_promotion_proposal` for authorized maintainers
@@ -296,6 +299,8 @@ Use `$vault-project-archiving` when you need to:
 - create project overview and architecture notes
 - map source lineage without dumping raw code into the data repository
 - keep active project material in curation until a stable summary deserves promotion
+
+If your agent supports MCP, prefer connecting the vault governance MCP server before falling back to adapters and skills.
 
 ## Validation
 

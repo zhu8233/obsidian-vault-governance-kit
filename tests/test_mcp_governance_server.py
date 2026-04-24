@@ -154,6 +154,25 @@ class McpGovernanceServerTests(unittest.TestCase):
             self.assertNotIn("validate_data_repo", tool_names)
             self.assertNotIn("propose_registry_update", tool_names)
 
+    def test_whoami_returns_effective_role_and_visible_tools(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            vault = Path(tmp) / "vault"
+            self._install_and_seed_vault(vault)
+
+            reader_backend = GovernanceBackend(vault, subject_id="reader@example.com", auth_mode="oauth")
+            owner_backend = GovernanceBackend(vault, subject_id="owner@example.com", auth_mode="oauth")
+
+            reader_result = reader_backend.call_tool("whoami", {})
+            owner_result = owner_backend.call_tool("whoami", {})
+
+            self.assertFalse(reader_result["isError"])
+            self.assertFalse(owner_result["isError"])
+            self.assertEqual(reader_result["structuredContent"]["effectiveRole"], "vault-user")
+            self.assertEqual(owner_result["structuredContent"]["effectiveRole"], "system-maintainer")
+            self.assertIn("search_topics", reader_result["structuredContent"]["visibleTools"])
+            self.assertNotIn("apply_registry_update", reader_result["structuredContent"]["visibleTools"])
+            self.assertIn("apply_registry_update", owner_result["structuredContent"]["visibleTools"])
+
     def test_system_maintainer_tool_list_includes_governance_tools(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             vault = Path(tmp) / "vault"
@@ -841,6 +860,53 @@ class McpGovernanceServerTests(unittest.TestCase):
             tool_names = [item["name"] for item in tools_response["result"]["tools"]]
             self.assertIn("search_topics", tool_names)
             self.assertNotIn("validate_data_repo", tool_names)
+
+    def test_launcher_script_supports_stdio_initialize_and_tools_list(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            vault = Path(tmp) / "vault"
+            self._install_and_seed_vault(vault)
+
+            proc = subprocess.Popen(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts" / "run_mcp_server.py"),
+                    str(vault),
+                    "--subject-id",
+                    "reader@example.com",
+                    "--auth-mode",
+                    "oauth",
+                ],
+                cwd=ROOT,
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+
+            assert proc.stdin is not None
+            _write_framed_message(
+                proc.stdin,
+                {
+                    "jsonrpc": "2.0",
+                    "id": 1,
+                    "method": "initialize",
+                    "params": {
+                        "protocolVersion": "2025-11-25",
+                        "capabilities": {},
+                        "clientInfo": {"name": "launcher-test", "version": "1.0.0"},
+                    },
+                },
+            )
+            _write_framed_message(proc.stdin, {"jsonrpc": "2.0", "method": "notifications/initialized"})
+            _write_framed_message(proc.stdin, {"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}})
+            proc.stdin.close()
+
+            stdout, stderr = proc.communicate(timeout=10)
+            self.assertEqual(proc.returncode, 0, stderr.decode("utf-8"))
+            messages = _read_framed_messages(stdout)
+            tools_response = next(item for item in messages if item.get("id") == 2)
+            tool_names = [item["name"] for item in tools_response["result"]["tools"]]
+            self.assertIn("whoami", tool_names)
+            self.assertNotIn("apply_snapshot_upgrade", tool_names)
 
     def test_stdio_end_to_end_promotion_flow(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
