@@ -14,10 +14,13 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from mcp_governance_backend import GovernanceBackend  # type: ignore  # noqa: E402
 
 
-def _write_framed_message(stream, message: dict) -> None:
+def _framed_message_bytes(message: dict) -> bytes:
     payload = json.dumps(message).encode("utf-8")
-    stream.write(f"Content-Length: {len(payload)}\r\n\r\n".encode("ascii"))
-    stream.write(payload)
+    return f"Content-Length: {len(payload)}\r\n\r\n".encode("ascii") + payload
+
+
+def _write_framed_message(stream, message: dict) -> None:
+    stream.write(_framed_message_bytes(message))
     stream.flush()
 
 
@@ -43,6 +46,25 @@ def _read_framed_messages(data: bytes) -> list[dict]:
 
 
 def _run_stdio_sequence(vault: Path, subject_id: str, auth_mode: str, requests: list[dict]) -> list[dict]:
+    chunks = [
+        _framed_message_bytes(
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "method": "initialize",
+                "params": {
+                    "protocolVersion": "2025-11-25",
+                    "capabilities": {},
+                    "clientInfo": {"name": "test-client", "version": "1.0.0"},
+                },
+            }
+        ),
+        _framed_message_bytes({"jsonrpc": "2.0", "method": "notifications/initialized"}),
+    ]
+    for request in requests:
+        chunks.append(_framed_message_bytes(request))
+    stdin_payload = b"".join(chunks)
+
     proc = subprocess.Popen(
         [
             sys.executable,
@@ -58,25 +80,7 @@ def _run_stdio_sequence(vault: Path, subject_id: str, auth_mode: str, requests: 
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    assert proc.stdin is not None
-    _write_framed_message(
-        proc.stdin,
-        {
-            "jsonrpc": "2.0",
-            "id": 1,
-            "method": "initialize",
-            "params": {
-                "protocolVersion": "2025-11-25",
-                "capabilities": {},
-                "clientInfo": {"name": "test-client", "version": "1.0.0"},
-            },
-        },
-    )
-    _write_framed_message(proc.stdin, {"jsonrpc": "2.0", "method": "notifications/initialized"})
-    for request in requests:
-        _write_framed_message(proc.stdin, request)
-    proc.stdin.close()
-    stdout, stderr = proc.communicate(timeout=10)
+    stdout, stderr = proc.communicate(input=stdin_payload, timeout=10)
     if proc.returncode != 0:
         raise AssertionError(stderr.decode("utf-8"))
     return _read_framed_messages(stdout)
@@ -796,6 +800,25 @@ class McpGovernanceServerTests(unittest.TestCase):
             vault = Path(tmp) / "vault"
             self._install_and_seed_vault(vault)
 
+            stdin_payload = b"".join(
+                [
+                    _framed_message_bytes(
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 1,
+                            "method": "initialize",
+                            "params": {
+                                "protocolVersion": "2025-11-25",
+                                "capabilities": {},
+                                "clientInfo": {"name": "test-client", "version": "1.0.0"},
+                            },
+                        }
+                    ),
+                    _framed_message_bytes({"jsonrpc": "2.0", "method": "notifications/initialized"}),
+                    _framed_message_bytes({"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}}),
+                ]
+            )
+
             proc = subprocess.Popen(
                 [
                     sys.executable,
@@ -812,25 +835,7 @@ class McpGovernanceServerTests(unittest.TestCase):
                 stderr=subprocess.PIPE,
             )
 
-            assert proc.stdin is not None
-            _write_framed_message(
-                proc.stdin,
-                {
-                    "jsonrpc": "2.0",
-                    "id": 1,
-                    "method": "initialize",
-                    "params": {
-                        "protocolVersion": "2025-11-25",
-                        "capabilities": {},
-                        "clientInfo": {"name": "test-client", "version": "1.0.0"},
-                    },
-                },
-            )
-            _write_framed_message(proc.stdin, {"jsonrpc": "2.0", "method": "notifications/initialized"})
-            _write_framed_message(proc.stdin, {"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}})
-            proc.stdin.close()
-
-            stdout, stderr = proc.communicate(timeout=10)
+            stdout, stderr = proc.communicate(input=stdin_payload, timeout=10)
             self.assertEqual(proc.returncode, 0, stderr.decode("utf-8"))
 
             messages = _read_framed_messages(stdout)
